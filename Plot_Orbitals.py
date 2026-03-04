@@ -8,7 +8,7 @@
 # License: BSD Style.
 
 # Create the data ############################################################
-#from __future__ import division
+from __future__ import division
 import numpy as np
 import Hydrogenic as hyd
 from mayavi import mlab
@@ -34,9 +34,9 @@ Psi2 = L(r2) * A(theta2, phi2)
 Phi2 = (np.conj(Psi2)*Psi2).real
 phase2 = np.angle(Psi2)
 
-if False: # Iso phase coloring
+if True: # Iso phase coloring
     # Plot it ####################################################################
-    
+
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
     # We create a scalar field with the module of Phi as the scalar
     src = mlab.pipeline.scalar_field(x, y, z, Phi)
@@ -73,18 +73,18 @@ if False: # Iso phase coloring
 
 if False: # iso density colors
     # Plot it ####################################################################
-    
+
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
     contour = mlab.contour3d(x, y, z, Phi, colormap='hsv')
     source = contour.mlab_source
     source2 = mlab.pipeline.scalar_field(x, y, z, phase)
-    #contour2 = mlab.pipeline.set_active_attribute(contour, source2)                                                 
+    #contour2 = mlab.pipeline.set_active_attribute(contour, source2)
     #mlab.pipeline.surface(contour2, colormap='hsv', vmax=np.pi, vmin=-np.pi)
     mlab.colorbar(title='Density', orientation='vertical', nb_labels=5)
     mlab.view(-10, 90)
-    mlab.show()    
-    
-if False: # volume
+    mlab.show()
+
+if True: # volume
     # Plot it ####################################################################
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
     # We create a scalar field with the module of Phi as the scalar
@@ -98,8 +98,8 @@ if False: # volume
     mlab.colorbar(title='Density', orientation='vertical', nb_labels=5, label_fmt='%.0e')
     mlab.view(-10, 90)
     mlab.show()
-    
-if False: # Iso and volume
+
+if True: # Iso and volume
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
     # iso
     src = mlab.pipeline.scalar_field(x2, y2, z2, np.abs(Phi2))
@@ -115,8 +115,8 @@ if False: # Iso and volume
     volume1 = mlab.pipeline.volume(src3, vmin=0)
     mlab.view(-10, 90)
     mlab.show()
-    
-if False: # iso + Scaled Sphere
+
+if True: # iso + Scaled Sphere
     #-------------------------------------------------------------------------------------
     #iso
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
@@ -174,7 +174,7 @@ if False: # Scaled Sphere
     mlab.view(0, 90)
     mlab.show()
 #-------------------------------------------------------------------------------------
-if False: # points
+if True: # points
     num = 400j
     xp, yp, zp = np.ogrid[- 35:35:num, - 35:35:num, - 35:35:num]
     rp = np.sqrt(xp ** 2 + yp ** 2 + zp ** 2)
@@ -182,7 +182,7 @@ if False: # points
     thetap = np.arctan(yp/xp)
     psip = orbital.angular(thetap, phip) * orbital.radial(rp)
     anglep = np.angle(psip)
-    densityp = (np.conj(psip)*psip).real   
+    densityp = (np.conj(psip)*psip).real
     xpoints = []
     ypoints= []
     zpoints = []
@@ -204,14 +204,14 @@ if False: # points
     xpoints = np.array(xpoints)
     ypoints = np.array(ypoints)
     zpoints = np.array(zpoints)
-    psipoints = - np.array(psipoints)  # take the negative to match with the phase colormap colors 
+    psipoints = - np.array(psipoints)  # take the negative to match with the phase colormap colors
     print(len(xpoints), len(ypoints), len(zpoints), len(psipoints))
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
     mlab.points3d(xpoints, ypoints, zpoints, -psipoints, colormap="jet", scale_mode='none', scale_factor=0.2)
     mlab.colorbar(title='Psi', orientation='vertical', nb_labels=5, label_fmt='%.2f')
     mlab.view(-10, 90)
     mlab.show()
-if False: # iso + points
+if True: # iso + points
     #-------------------------------------------------------------------------------------
     #iso
     mlab.figure(1, fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
@@ -222,7 +222,7 @@ if False: # iso + points
     src2 = mlab.pipeline.set_active_attribute(src)
     contour = mlab.pipeline.contour(src2)
     contour.filter.contours= [0.00005]
-    contour2 = mlab.pipeline.set_active_attribute(contour, point_scalars='angle')    
+    contour2 = mlab.pipeline.set_active_attribute(contour, point_scalars='angle')
     mlab.pipeline.surface(contour2, colormap='hsv', vmax=np.pi, vmin=-np.pi)
     mlab.points3d(xpoints, ypoints, zpoints, -psipoints, colormap="jet", scale_mode='none', scale_factor=0.2)
     mlab.view(-10, 90)
